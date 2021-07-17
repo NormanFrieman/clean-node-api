@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "pre-commit": "lint-staged --shell",
     "test": "jest",
     "test:staged": "jest"
   },
