@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pre-commit": "s",
-    "test": "jest",
+    "test": "jest --watch",
     "test:staged": "jest"
   },
   "keywords": [],
