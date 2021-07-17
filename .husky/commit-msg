@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo '[HUSKY] commit msg started'
+echo "[HUSKY] run .git/hooks/commit-msg $1"
+.git/hooks/commit-msg $1
+

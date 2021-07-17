@@ -1,5 +1,11 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-eslint 'src/**' --fix
-npm test
+echo '[HUSKY] pre commit started'
+echo "[HUSKY] run npx eslint 'src/**' --fix"
+npx eslint 'src/**' --fix
+echo "[HUSKY] run npm run test:staged"
+npm run test:staged
+
+# echo '[HUSKY] run npm run pre-commit'
+# npx lint-staged --shell
