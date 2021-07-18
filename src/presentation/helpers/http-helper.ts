@@ -1,3 +1,4 @@
+import { ServerError } from "../errors";
 import { HttpResponse } from "../protocols/http";
 
 // Classe pra ser retornada quando o erro for BadRequest
@@ -12,11 +13,7 @@ export class BadRequest implements HttpResponse{
 // Classe pra ser retornada quando o erro for InternalServerError
 export class InternalServerError implements HttpResponse{
     statusCode = 500;
-    body: Error;
-
-    constructor(error: Error){
-        this.body = error;
-    }
+    body = new ServerError();
 }
 
 
@@ -30,9 +27,9 @@ export const badRequest = (error: Error): HttpResponse => {
     }
 }
 // Função que retorna um HttpResponse quando o erro for InternalServerError
-export const internalServerError = (error: Error): HttpResponse => {
+export const internalServerError = (): HttpResponse => {
     return {
         statusCode: 500,
-        body: error
+        body: new ServerError()
     }
 }
