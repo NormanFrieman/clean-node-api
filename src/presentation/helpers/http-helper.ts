@@ -1,3 +1,4 @@
+import { AccountModel } from "../../domain/models/account";
 import { ServerError } from "../errors";
 import { HttpResponse } from "../protocols/http";
 
@@ -15,6 +16,16 @@ export class InternalServerError implements HttpResponse{
     statusCode = 500;
     body = new ServerError();
 }
+// Classe pra ser retornada quando for OK
+export class Ok implements HttpResponse{
+    statusCode = 200;
+    body: AccountModel;
+
+    constructor(account: AccountModel){
+        this.body = account;
+    }
+}
+
 
 
 
@@ -31,5 +42,12 @@ export const internalServerError = (): HttpResponse => {
     return {
         statusCode: 500,
         body: new ServerError()
+    }
+}
+// Função que retorna um HttpResponse quando for Of
+export const ok = (account: AccountModel): HttpResponse => {
+    return {
+        statusCode: 200,
+        body: account
     }
 }
