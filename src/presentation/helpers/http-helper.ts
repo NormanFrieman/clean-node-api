@@ -19,10 +19,10 @@ export class InternalServerError implements HttpResponse{
 // Classe pra ser retornada quando for OK
 export class Ok implements HttpResponse{
     statusCode = 200;
-    body: AccountModel;
+    body: any;
 
-    constructor(account: AccountModel){
-        this.body = account;
+    constructor(data: any){
+        this.body = data;
     }
 }
 
@@ -45,9 +45,9 @@ export const internalServerError = (): HttpResponse => {
     }
 }
 // Função que retorna um HttpResponse quando for Of
-export const ok = (account: AccountModel): HttpResponse => {
+export const ok = (data: any): HttpResponse => {
     return {
         statusCode: 200,
-        body: account
+        body: data
     }
 }
