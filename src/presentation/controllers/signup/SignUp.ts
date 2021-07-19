@@ -35,7 +35,12 @@ export class SignUpController implements Controller{
                 password
             };
 
-            this.addAcount.add(user);
+            const account = this.addAcount.add(user);
+
+            return {
+                statusCode: 200,
+                body: account
+            }
         }catch(err){
             return new InternalServerError();
         }
