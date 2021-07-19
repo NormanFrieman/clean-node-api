@@ -30,18 +30,18 @@ const makeAddAccount = (): AddAccount => {
 interface SutTypes{
     sut: SignUpController,
     emailValidatorStub: EmailValidator,
-    addAccount: AddAccount
+    addAccountStub: AddAccount
 }
 
 const makeSut = (): SutTypes => {
     const emailValidatorStub = makeEmailValidator();
-    const addAccountMock = makeAddAccount();
-    const sut = new SignUpController(emailValidatorStub, addAccountMock);
+    const addAccountStub = makeAddAccount();
+    const sut = new SignUpController(emailValidatorStub, addAccountStub);
 
     return {
         sut: sut,
         emailValidatorStub: emailValidatorStub,
-        addAccount: addAccountMock
+        addAccountStub: addAccountStub
     };
 }
 
@@ -177,10 +177,30 @@ describe('SignUp Controller', () => {
         expect(httpResponse.statusCode).toBe(500);
         expect(httpResponse.body).toEqual(new ServerError());
     }),
-    test('Should call AddAccount with correct values', () => {
-        const { sut, addAccount } = makeSut();
+    test('Should returns 500 if AddAcount throws', () => {
+        const { sut, addAccountStub } = makeSut();
+        
+        jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
+            throw new Error();
+        })
 
-        const addSpy = jest.spyOn(addAccount, 'add');
+        const httpRequest: HttpRequest = {
+            body:{
+                name: 'any name',
+                email: 'any_mail@mail.com',
+                password: 'any_password',
+                passwordConfirmation: 'any_password'
+            }
+        };
+        
+        const httpResponse: HttpResponse = sut.handle(httpRequest);
+        expect(httpResponse.statusCode).toBe(500);
+        expect(httpResponse.body).toEqual(new ServerError());
+    }),
+    test('Should call AddAccount with correct values', () => {
+        const { sut, addAccountStub } = makeSut();
+
+        const addSpy = jest.spyOn(addAccountStub, 'add');
 
         const httpRequest: HttpRequest = {
             body:{
