@@ -1,4 +1,3 @@
-import { AccountModel } from "../../domain/models/account";
 import { ServerError } from "../errors";
 import { HttpResponse } from "../protocols/http";
 
@@ -30,24 +29,24 @@ export class Ok implements HttpResponse{
 
 
 
-// Função que retorna um HttpResponse quando o erro for BadRequest
-export const badRequest = (error: Error): HttpResponse => {
-    return {
-        statusCode: 400,
-        body: error
-    }
-}
-// Função que retorna um HttpResponse quando o erro for InternalServerError
-export const internalServerError = (): HttpResponse => {
-    return {
-        statusCode: 500,
-        body: new ServerError()
-    }
-}
-// Função que retorna um HttpResponse quando for Of
-export const ok = (data: any): HttpResponse => {
-    return {
-        statusCode: 200,
-        body: data
-    }
-}
+// // Função que retorna um HttpResponse quando o erro for BadRequest
+// export const badRequest = (error: Error): HttpResponse => {
+//     return {
+//         statusCode: 400,
+//         body: error
+//     }
+// }
+// // Função que retorna um HttpResponse quando o erro for InternalServerError
+// export const internalServerError = (): HttpResponse => {
+//     return {
+//         statusCode: 500,
+//         body: new ServerError()
+//     }
+// }
+// // Função que retorna um HttpResponse quando for Of
+// export const ok = (data: any): HttpResponse => {
+//     return {
+//         statusCode: 200,
+//         body: data
+//     }
+// }

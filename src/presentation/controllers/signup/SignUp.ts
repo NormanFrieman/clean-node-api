@@ -39,6 +39,7 @@ export class SignUpController implements Controller{
 
             return new Ok(account);
         }catch(err){
+            console.error(err);
             return new InternalServerError();
         }
     }
