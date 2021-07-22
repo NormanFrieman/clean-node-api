@@ -17,7 +17,7 @@ const makeAddAccountRepository = (): AddAccountRepository => {
             const fakeAccount: AccountModel = {
                 id: 'valid_id',
                 name: 'valid name',
-                email: 'valid_email@mainModule.com',
+                email: 'valid_mail',
                 password: 'hashed_password'
             };
             return new Promise(resolve => resolve(fakeAccount));
@@ -52,7 +52,7 @@ describe('DbAddAccount Usecase', () => {
         const encryptSpy = jest.spyOn(encrypterStub, 'encrypt');
         const accountData: AddAccountModel = {
             name: 'valid name',
-            email: 'valid_mail@mail.com',
+            email: 'valid_mail',
             password: 'valid_password'
         };
         
@@ -66,7 +66,7 @@ describe('DbAddAccount Usecase', () => {
 
         const accountData: AddAccountModel = {
             name: 'valid name',
-            email: 'valid_mail@mail.com',
+            email: 'valid_mail',
             password: 'valid_password'
         };
         
@@ -79,14 +79,14 @@ describe('DbAddAccount Usecase', () => {
         const addSpy = jest.spyOn(addAccountRepositoryStub, 'add');
         const accountData: AddAccountModel = {
             name: 'valid name',
-            email: 'valid_mail@mail.com',
+            email: 'valid_mail',
             password: 'valid_password'
         };
         
         await sut.add(accountData);
         expect(addSpy).toHaveBeenCalledWith({
             name: 'valid name',
-            email: 'valid_mail@mail.com',
+            email: 'valid_mail',
             password: 'hashed_password'
         });
     }),
@@ -97,11 +97,28 @@ describe('DbAddAccount Usecase', () => {
 
         const accountData: AddAccountModel = {
             name: 'valid name',
-            email: 'valid_mail@mail.com',
+            email: 'valid_mail',
             password: 'valid_password'
         };
         
         const promise = sut.add(accountData);
         await expect(promise).rejects.toThrow();
+    }),
+    test('Should returns an account on success', async () => {
+        const { sut } = makeSut();
+        
+        const accountData: AddAccountModel = {
+            name: 'valid name',
+            email: 'valid_mail',
+            password: 'valid_password'
+        };
+        
+        const account = await sut.add(accountData);
+        expect(account).toEqual({
+            id: 'valid_id',
+            name: 'valid name',
+            email: 'valid_mail',
+            password: 'hashed_password'
+        })
     })
 })
