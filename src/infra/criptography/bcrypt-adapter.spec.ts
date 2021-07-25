@@ -10,5 +10,14 @@ describe('BCrypt Adapter', () => {
         await sut.encrypt('any_value');
 
         expect(hashSpy).toHaveBeenCalledWith('any_value', salt);
+    }),
+    test('Should return hash on sucess', async () => {
+        const salt = 12;
+        const sut = new BCryptAdapter(salt);
+        jest.spyOn(bcrypt, 'hash').mockImplementation(() => new Promise(resolve => resolve('hash')));
+
+        const hash = await sut.encrypt('any_value');
+
+        expect(hash).toBe('hash');
     })
 });
