@@ -1,8 +1,8 @@
-import { AddAccountModel, AccountModel, Encrypter, AddAccountRepository } from "./db-add-account-protocols";
+import { IAddAccountModel, IAccountModel, IEncrypter, IAddAccountRepository } from "./db-add-account-protocols";
 import { DbAddAccount } from "./db-add-account";
 
-const makeEncrypter = (): Encrypter => {
-    class EncrypterStub implements Encrypter{
+const makeEncrypter = (): IEncrypter => {
+    class EncrypterStub implements IEncrypter{
         async encrypt(value: string): Promise<string>{
             return new Promise(resolve => resolve('hashed_password'));
         }
@@ -11,10 +11,10 @@ const makeEncrypter = (): Encrypter => {
     return new EncrypterStub();
 }
 
-const makeAddAccountRepository = (): AddAccountRepository => {
-    class AddAccountRepositoryStub implements AddAccountRepository{
-        async add(accountData: AddAccountModel): Promise<AccountModel>{
-            const fakeAccount: AccountModel = {
+const makeAddAccountRepository = (): IAddAccountRepository => {
+    class AddAccountRepositoryStub implements IAddAccountRepository{
+        async add(accountData: IAddAccountModel): Promise<IAccountModel>{
+            const fakeAccount: IAccountModel = {
                 id: 'valid_id',
                 name: 'valid name',
                 email: 'valid_mail',
@@ -41,8 +41,8 @@ const makeSut = (): SutTypes => {
 
 interface SutTypes{
     sut: DbAddAccount,
-    encrypterStub: Encrypter,
-    addAccountRepositoryStub: AddAccountRepository
+    encrypterStub: IEncrypter,
+    addAccountRepositoryStub: IAddAccountRepository
 }
 
 describe('DbAddAccount Usecase', () => {
@@ -50,7 +50,7 @@ describe('DbAddAccount Usecase', () => {
         const { sut, encrypterStub } = makeSut();
         
         const encryptSpy = jest.spyOn(encrypterStub, 'encrypt');
-        const accountData: AddAccountModel = {
+        const accountData: IAddAccountModel = {
             name: 'valid name',
             email: 'valid_mail',
             password: 'valid_password'
@@ -64,7 +64,7 @@ describe('DbAddAccount Usecase', () => {
         
         jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
 
-        const accountData: AddAccountModel = {
+        const accountData: IAddAccountModel = {
             name: 'valid name',
             email: 'valid_mail',
             password: 'valid_password'
@@ -77,7 +77,7 @@ describe('DbAddAccount Usecase', () => {
         const { sut, addAccountRepositoryStub } = makeSut();
         
         const addSpy = jest.spyOn(addAccountRepositoryStub, 'add');
-        const accountData: AddAccountModel = {
+        const accountData: IAddAccountModel = {
             name: 'valid name',
             email: 'valid_mail',
             password: 'valid_password'
@@ -95,7 +95,7 @@ describe('DbAddAccount Usecase', () => {
         
         jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
 
-        const accountData: AddAccountModel = {
+        const accountData: IAddAccountModel = {
             name: 'valid name',
             email: 'valid_mail',
             password: 'valid_password'
@@ -107,7 +107,7 @@ describe('DbAddAccount Usecase', () => {
     test('Should returns an account on success', async () => {
         const { sut } = makeSut();
         
-        const accountData: AddAccountModel = {
+        const accountData: IAddAccountModel = {
             name: 'valid name',
             email: 'valid_mail',
             password: 'valid_password'

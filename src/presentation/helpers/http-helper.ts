@@ -1,8 +1,8 @@
 import { ServerError } from "../errors";
-import { HttpResponse } from "../protocols/http";
+import { IHttpResponse } from "../protocols/http";
 
 // Classe pra ser retornada quando o erro for BadRequest
-export class BadRequest implements HttpResponse{
+export class BadRequest implements IHttpResponse{
     statusCode = 400;
     body: Error;
 
@@ -11,12 +11,12 @@ export class BadRequest implements HttpResponse{
     }
 }
 // Classe pra ser retornada quando o erro for InternalServerError
-export class InternalServerError implements HttpResponse{
+export class InternalServerError implements IHttpResponse{
     statusCode = 500;
     body = new ServerError();
 }
 // Classe pra ser retornada quando for OK
-export class Ok implements HttpResponse{
+export class Ok implements IHttpResponse{
     statusCode = 200;
     body: any;
 
